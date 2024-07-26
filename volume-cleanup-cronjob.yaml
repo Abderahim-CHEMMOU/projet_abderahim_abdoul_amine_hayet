@@ -1,0 +1,35 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: volume-cleanup-cronjob
+spec:
+  schedule: "0 1 * * *"  # Tous les jours à 1h du matin
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: volume-cleanup
+            image: busybox
+            command: ["/bin/sh", "-c"]
+            args:
+            - |
+              echo "Démarrage du nettoyage des volumes..."
+              # Suppression des fichiers de logs de plus de 7 jours
+              find /mnt/backend-logs -type f -mtime +7 -delete
+              # Suppression des sauvegardes de la base de données de plus de 30 jours
+              find /mnt/db-backups -type d -mtime +30 -exec rm -rf {} +
+              echo "Nettoyage terminé."
+            volumeMounts:
+            - name: backend-logs
+              mountPath: /mnt/backend-logs
+            - name: db-backups
+              mountPath: /mnt/db-backups
+          restartPolicy: OnFailure
+          volumes:
+          - name: backend-logs
+            persistentVolumeClaim:
+              claimName: backend-logs-pvc
+          - name: db-backups
+            persistentVolumeClaim:
+              claimName: db-backups-pvc 

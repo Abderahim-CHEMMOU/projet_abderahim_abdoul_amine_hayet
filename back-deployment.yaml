@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: back-deployment
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: back
@@ -13,17 +13,14 @@ spec:
         app: back
     spec:
       containers:
-        - name: back
-          image: chemmou26/back:latest
-          ports:
-            - containerPort: 5000
-          envFrom:
-            - configMapRef:
-                name: backend-config
-          volumeMounts:
-            - name: backend-logs
-              mountPath: /var/log/backend
+      - name: back
+        image: chemmou26/back:latest
+        ports:
+        - containerPort: 5000
+        envFrom:
+        - configMapRef:
+            name: backend-config
       volumes:
-        - name: backend-logs
-          persistentVolumeClaim:
-            claimName: backend-logs-pvc
+      - name: backend-logs
+        persistentVolumeClaim:
+          claimName: backend-logs-pvc

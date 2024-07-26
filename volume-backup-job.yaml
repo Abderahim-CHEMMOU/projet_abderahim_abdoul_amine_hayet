@@ -1,0 +1,36 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: volume-backup-job
+spec:
+  template:
+    spec:
+      containers:
+      - name: volume-backup
+        image: busybox
+        command: ["/bin/sh", "-c"]
+        args:
+        - |
+          echo "Démarrage de la sauvegarde des volumes..."
+          # Sauvegarde du volume de la base de données
+          cp -r /mnt/db-data /mnt/backup/db-backup-$(date +%Y%m%d)
+          # Sauvegarde du volume des logs backend
+          cp -r /mnt/backend-logs /mnt/backup/backend-logs-backup-$(date +%Y%m%d)
+          echo "Sauvegarde terminée."
+        volumeMounts:
+        - name: db-data
+          mountPath: /mnt/db-data
+        - name: backend-logs
+          mountPath: /mnt/backend-logs
+        - name: backup-volume
+          mountPath: /mnt/backup
+      restartPolicy: OnFailure
+      volumes:
+      - name: db-data
+        persistentVolumeClaim:
+          claimName: postgres-pvc
+      - name: backend-logs
+        persistentVolumeClaim:
+          claimName: backend-logs-pvc
+      - name: backup-volume
+        emptyDir: {}
