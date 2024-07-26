@@ -24,7 +24,7 @@ metadata:
 spec:
   containers:
   - name: back
-    image: chemmou26/monback:latest
+    image: chemmou26/back:latest
     ports:
     - containerPort: 5000
     envFrom:

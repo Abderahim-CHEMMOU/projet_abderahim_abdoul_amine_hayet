@@ -7,7 +7,7 @@
 # spec:
 #   containers:
 #   - name: front
-#     image: chemmou26/monfront:latest
+#     image: chemmou26/front:latest
 #     ports:
 #     - containerPort: 3000
 
@@ -21,7 +21,7 @@ metadata:
 spec:
   containers:
   - name: front
-    image: chemmou26/monfront:latest
+    image: chemmou26/front:latest
     ports:
     - containerPort: 3000
     envFrom:

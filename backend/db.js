@@ -31,7 +31,7 @@ const initializeDatabase = async () => {
   try {
     await sequelize.authenticate();
     console.log('Connection has been established successfully.');
-    await sequelize.sync(); // Use `force: true` only for development; it will drop tables if they exist and recreate them.
+    await sequelize.sync({ force: false }); 
     console.log('Database synchronized successfully.');
 
     // // Insérer des données initiales
