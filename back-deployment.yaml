@@ -13,10 +13,17 @@ spec:
         app: back
     spec:
       containers:
-      - name: back
-        image: chemmou26/back:latest
-        ports:
-        - containerPort: 5000
-        envFrom:
-        - configMapRef:
-            name: backend-config
+        - name: back
+          image: chemmou26/back:latest
+          ports:
+            - containerPort: 5000
+          envFrom:
+            - configMapRef:
+                name: backend-config
+          volumeMounts:
+            - name: backend-logs
+              mountPath: /var/log/backend
+      volumes:
+        - name: backend-logs
+          persistentVolumeClaim:
+            claimName: backend-logs-pvc
