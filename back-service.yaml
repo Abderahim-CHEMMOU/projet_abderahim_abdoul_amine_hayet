@@ -3,10 +3,9 @@ kind: Service
 metadata:
   name: back-service
 spec:
-  type: NodePort
-  ports:
-  - port: 5000
-    targetPort: 5000
-    nodePort: 32002  # NodePort range: 30000-32767
   selector:
     app: back
+  ports:
+    - port: 5000
+      targetPort: 5000
+  type: ClusterIP  # Changé de NodePort à ClusterIP

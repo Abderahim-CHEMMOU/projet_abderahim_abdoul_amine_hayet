@@ -3,10 +3,9 @@ kind: Service
 metadata:
   name: front-service
 spec:
-  type: NodePort
-  ports:
-  - port: 3000
-    targetPort: 3000
-    nodePort: 32000  # NodePort range: 30000-32767
   selector:
     app: front
+  ports:
+    - port: 3000
+      targetPort: 3000
+  type: ClusterIP  
