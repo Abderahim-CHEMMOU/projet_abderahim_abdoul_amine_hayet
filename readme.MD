@@ -1,4 +1,5 @@
 # Documentation Technique Complète du Projet Minikube
+![Diagramme de l'infrastructure](./infra_kube_IPSSI.png)
 
 ## Description du Projet
 
