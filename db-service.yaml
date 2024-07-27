@@ -3,10 +3,9 @@ kind: Service
 metadata:
   name: db-service
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
-  - port: 5432
-    targetPort: 5432
-    nodePort: 32001  
+    - port: 5432
+      targetPort: 5432
   selector:
     app: db
